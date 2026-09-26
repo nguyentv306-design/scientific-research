@@ -87,6 +87,7 @@ const pageTitles = {
   folders: "Quản lý folder",
   users: "Quản lý user",
   upload: "Upload",
+  leaderboard: "Bảng xếp hạng",
   history: "Lịch sử",
   discussion: "Thảo luận",
   settings: "Cài đặt",

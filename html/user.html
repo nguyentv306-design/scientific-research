@@ -31,11 +31,21 @@
       <nav aria-label="Điều hướng chính">
         <p class="nav-label">KHU VỰC CỦA TÔI</p>
         <button class="nav-item active" data-page="documents"><span class="nav-icon">▦</span> Tài liệu</button>
+        <button class="nav-item" data-page="leaderboard"><span class="nav-icon">🏆</span> Bảng xếp hạng</button>
         <button class="nav-item" data-page="upload"><span class="nav-icon">⬆</span> Upload</button>
         <button class="nav-item" data-page="search"><span class="nav-icon">⌕</span> Tìm kiếm</button>
         <button class="nav-item" data-page="discussion"><span class="nav-icon">💬</span> Thảo luận</button>
         <button class="nav-item" data-page="account"><span class="nav-icon">⚙</span> Tài khoản</button>
       </nav>
+
+      <!-- CÔNG TẮC DARK MODE Ở GÓC BÊN TRÁI SIDEBAR -->
+      <div class="sidebar-theme-toggle">
+        <span>Chế độ tối</span>
+        <label class="switch">
+          <input type="checkbox" id="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
 
       <div class="sidebar-note">
         <button class="button button-secondary" id="logoutBtn" style="width:100%;justify-content:center;">
@@ -54,17 +64,6 @@
 
         <!-- ================= TAB: TÀI LIỆU ================= -->
         <section class="page active" id="documentsPage">
-          <!-- Bảng xếp hạng: ai upload nhiều file nhất -->
-          <section class="card" id="leaderboardCard" style="margin-bottom:1.5rem;">
-            <div class="card-header">
-              <div>
-                <h2>Bảng xếp hạng</h2>
-                <p>Top người đóng góp nhiều tài liệu nhất</p>
-              </div>
-            </div>
-            <div id="leaderboardList" style="padding:0 1.25rem 1.25rem;"></div>
-          </section>
-
           <div class="page-heading">
             <div>
               <h1 id="documentsTitle">Tất cả folder</h1>
@@ -74,7 +73,7 @@
             <button class="button button-primary" id="showAddFolderBtn">+ Thêm folder</button>
           </div>
 
-          <!-- Form thêm folder mới (ẩn mặc định, hiện khi bấm nút trên) -->
+          <!-- Form thêm folder mới -->
           <section class="card" id="addFolderCard" hidden style="margin-bottom:1.5rem;">
             <form id="addFolderForm" class="form-grid" style="padding:1.25rem;">
               <div class="form-field">
@@ -94,7 +93,7 @@
             <button class="folder-scroll-btn" id="folderNextBtn" aria-label="Xem folder sau" hidden>›</button>
           </div>
 
-          <!-- Khu vực folder CON của folder cha đang mở (chỉ hiện khi đang ở trong 1 folder cha) -->
+          <!-- Folder con -->
           <section class="card" id="subfolderSection" hidden style="margin-bottom:1.5rem;">
             <div class="card-header">
               <div>
@@ -115,7 +114,7 @@
             <div class="stat-grid" id="subfolderGrid" style="padding:0 1.25rem 1.25rem;"></div>
           </section>
 
-          <!-- Danh sách file trong folder đang chọn -->
+          <!-- Danh sách file trong folder -->
           <section class="card" id="fileListCard" hidden>
             <div class="table-toolbar">
               <div class="result-count"><strong id="fileCount">0</strong> file trong folder này</div>
@@ -140,6 +139,20 @@
               <h3>Folder này chưa có file nào</h3>
               <p>Vào tab Upload để thêm file mới.</p>
             </div>
+          </section>
+        </section>
+
+        <!-- ================= TAB: BẢNG XẾP HẠNG (TÁCH THÀNH TAB RIÊNG) ================= -->
+        <section class="page" id="leaderboardPage">
+          <div class="page-heading">
+            <div>
+              <h1>Bảng xếp hạng</h1>
+              <p>Top người đóng góp nhiều tài liệu nhất hệ thống</p>
+            </div>
+          </div>
+
+          <section class="card">
+            <div id="leaderboardList" style="padding:1.25rem;"></div>
           </section>
         </section>
 
@@ -234,8 +247,6 @@
               <p>Trao đổi chung cho mọi thành viên</p>
             </div>
           </div>
-
-          <!-- Khu vực này do comment.js render động -->
           <div id="commentRoot"></div>
         </section>
 
@@ -247,21 +258,6 @@
               <p>Đổi tên hiển thị hoặc mật khẩu — cần nhập đúng mật khẩu hiện tại</p>
             </div>
           </div>
-
-          <section class="card" style="margin-bottom:1.25rem;">
-            <div class="card-header">
-              <div>
-                <h2>Giao diện</h2>
-                <p>Chọn chế độ hiển thị bạn thích</p>
-              </div>
-            </div>
-            <div style="padding:0 1.25rem 1.25rem;">
-              <label style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;">
-                <input type="checkbox" id="darkModeToggle">
-                <span>Chế độ tối (Dark mode)</span>
-              </label>
-            </div>
-          </section>
 
           <section class="card">
             <form id="accountForm" class="form-grid single" style="padding:1.5rem;">
@@ -294,7 +290,7 @@
     </main>
   </div>
 
-  <!-- Modal chuyển folder cho file (chọn từ danh sách, không gõ tay) -->
+  <!-- Modal chuyển folder -->
   <div class="modal" id="moveFolderModal" aria-hidden="true">
     <div class="modal-backdrop" data-close-move-modal></div>
     <section class="modal-dialog" role="dialog" aria-modal="true">

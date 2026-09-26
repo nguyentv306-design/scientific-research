@@ -86,6 +86,7 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
 const pageTitles = {
   documents: "Tài liệu",
   upload: "Upload",
+  leaderboard: "Bảng xếp hạng",
   search: "Tìm kiếm",
   discussion: "Thảo luận",
   account: "Tài khoản",

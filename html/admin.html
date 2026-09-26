@@ -31,12 +31,22 @@
         <button class="nav-item active" data-page="files"><span class="nav-icon">▦</span> Quản lý file</button>
         <button class="nav-item" data-page="folders"><span class="nav-icon">📁</span> Quản lý folder</button>
         <button class="nav-item" data-page="users"><span class="nav-icon">☺</span> Quản lý user</button>
+        <button class="nav-item" data-page="leaderboard"><span class="nav-icon">🏆</span> Bảng xếp hạng</button>
         <button class="nav-item" data-page="upload"><span class="nav-icon">⬆</span> Upload</button>
         <button class="nav-item" data-page="history"><span class="nav-icon">⏱</span> Lịch sử</button>
         <button class="nav-item" data-page="discussion"><span class="nav-icon">💬</span> Thảo luận</button>
         <button class="nav-item" data-page="settings"><span class="nav-icon">⚙</span> Cài đặt</button>
         <button class="nav-item" data-page="account"><span class="nav-icon">👤</span> Tài khoản</button>
       </nav>
+
+      <!-- CÔNG TẮC DARK MODE Ở GÓC BÊN TRÁI SIDEBAR -->
+      <div class="sidebar-theme-toggle">
+        <span>Chế độ tối</span>
+        <label class="switch">
+          <input type="checkbox" id="darkModeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
 
       <div class="sidebar-note">
         <button class="button button-secondary" id="logoutBtn" style="width:100%;justify-content:center;">
@@ -54,7 +64,7 @@
 
       <div class="page-wrap">
 
-        <!-- ================= TAB: QUẢN LÝ FILE ================= -->
+        <!-- TAB QUẢN LÝ FILE -->
         <section class="page active" id="filesPage">
           <div class="page-heading">
             <div>
@@ -62,8 +72,6 @@
               <p>Xem, sửa, khôi phục hoặc xóa vĩnh viễn mọi file trong hệ thống</p>
             </div>
           </div>
-
-          <!-- Quản lý Folder giờ nằm ở tab riêng, xem section #foldersPage bên dưới -->
 
           <section class="card">
             <div class="table-toolbar">
@@ -95,7 +103,7 @@
           </section>
         </section>
 
-        <!-- ================= TAB: QUẢN LÝ FOLDER (tách riêng) ================= -->
+        <!-- TAB QUẢN LÝ FOLDER -->
         <section class="page" id="foldersPage">
           <div class="page-heading">
             <div>
@@ -135,19 +143,8 @@
           </section>
         </section>
 
-        <!-- ================= TAB: QUẢN LÝ USER ================= -->
+        <!-- TAB QUẢN LÝ USER -->
         <section class="page" id="usersPage">
-          <!-- Bảng xếp hạng: ai upload nhiều file nhất -->
-          <section class="card" id="leaderboardCard" style="margin-bottom:1.5rem;">
-            <div class="card-header">
-              <div>
-                <h2>Bảng xếp hạng</h2>
-                <p>Top người đóng góp nhiều tài liệu nhất</p>
-              </div>
-            </div>
-            <div id="leaderboardList" style="padding:0 1.25rem 1.25rem;"></div>
-          </section>
-
           <div class="page-heading">
             <div>
               <h1>Quản lý user</h1>
@@ -185,7 +182,21 @@
           </section>
         </section>
 
-        <!-- ================= TAB: UPLOAD (giống hệt bên User) ================= -->
+        <!-- TAB BẢNG XẾP HẠNG (TÁCH THÀNH TAB RIÊNG) -->
+        <section class="page" id="leaderboardPage">
+          <div class="page-heading">
+            <div>
+              <h1>Bảng xếp hạng</h1>
+              <p>Top người đóng góp nhiều tài liệu nhất hệ thống</p>
+            </div>
+          </div>
+
+          <section class="card">
+            <div id="leaderboardList" style="padding:1.25rem;"></div>
+          </section>
+        </section>
+
+        <!-- TAB UPLOAD -->
         <section class="page" id="uploadPage">
           <div class="page-heading">
             <div>
@@ -228,7 +239,7 @@
           </section>
         </section>
 
-        <!-- ================= TAB: LỊCH SỬ ================= -->
+        <!-- TAB LỊCH SỬ -->
         <section class="page" id="historyPage">
           <div class="page-heading">
             <div>
@@ -258,7 +269,7 @@
           </section>
         </section>
 
-        <!-- ================= TAB: THẢO LUẬN ================= -->
+        <!-- TAB THẢO LUẬN -->
         <section class="page" id="discussionPage">
           <div class="page-heading">
             <div>
@@ -269,7 +280,7 @@
           <div id="commentRoot"></div>
         </section>
 
-        <!-- ================= TAB: CÀI ĐẶT ================= -->
+        <!-- TAB CÀI ĐẶT -->
         <section class="page" id="settingsPage">
           <div class="page-heading">
             <div>
@@ -299,7 +310,7 @@
           </section>
         </section>
 
-        <!-- ================= TAB: TÀI KHOẢN ================= -->
+        <!-- TAB TÀI KHOẢN -->
         <section class="page" id="accountPage">
           <div class="page-heading">
             <div>
@@ -307,21 +318,6 @@
               <p>Đổi tên hiển thị hoặc mật khẩu — cần nhập đúng mật khẩu hiện tại</p>
             </div>
           </div>
-
-          <section class="card" style="margin-bottom:1.25rem;">
-            <div class="card-header">
-              <div>
-                <h2>Giao diện</h2>
-                <p>Chọn chế độ hiển thị bạn thích</p>
-              </div>
-            </div>
-            <div style="padding:0 1.25rem 1.25rem;">
-              <label style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;">
-                <input type="checkbox" id="darkModeToggle">
-                <span>Chế độ tối (Dark mode)</span>
-              </label>
-            </div>
-          </section>
 
           <section class="card">
             <form id="accountForm" class="form-grid single" style="padding:1.5rem;">
@@ -354,7 +350,7 @@
     </main>
   </div>
 
-  <!-- Modal chuyển folder cho file (chọn từ danh sách, không gõ tay) -->
+  <!-- Modal chuyển folder -->
   <div class="modal" id="moveFolderModal" aria-hidden="true">
     <div class="modal-backdrop" data-close-move-modal></div>
     <section class="modal-dialog" role="dialog" aria-modal="true">
