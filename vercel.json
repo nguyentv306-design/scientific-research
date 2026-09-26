@@ -1,0 +1,32 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/html/login.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/html/login.html"
+    },
+    {
+      "source": "/login.html",
+      "destination": "/html/login.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/html/admin.html"
+    },
+    {
+      "source": "/admin.html",
+      "destination": "/html/admin.html"
+    },
+    {
+      "source": "/user",
+      "destination": "/html/user.html"
+    },
+    {
+      "source": "/user.html",
+      "destination": "/html/user.html"
+    }
+  ]
+}

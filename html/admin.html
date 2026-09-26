@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trang quản trị - Web Tài Liệu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Literata:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#">
+        <span class="brand-mark">T</span>
+        <span><strong>Web Tài Liệu</strong><small>ADMIN PANEL</small></span>
+      </a>
+
+      <div class="admin-card">
+        <div class="avatar" id="userAvatar">?</div>
+        <div><strong id="userNameLabel">Đang tải...</strong><span><i></i> Quản trị viên</span></div>
+      </div>
+
+      <nav aria-label="Điều hướng chính">
+        <p class="nav-label">QUẢN TRỊ</p>
+        <button class="nav-item active" data-page="files"><span class="nav-icon">▦</span> Quản lý file</button>
+        <button class="nav-item" data-page="folders"><span class="nav-icon">📁</span> Quản lý folder</button>
+        <button class="nav-item" data-page="users"><span class="nav-icon">☺</span> Quản lý user</button>
+        <button class="nav-item" data-page="upload"><span class="nav-icon">⬆</span> Upload</button>
+        <button class="nav-item" data-page="history"><span class="nav-icon">⏱</span> Lịch sử</button>
+        <button class="nav-item" data-page="discussion"><span class="nav-icon">💬</span> Thảo luận</button>
+        <button class="nav-item" data-page="settings"><span class="nav-icon">⚙</span> Cài đặt</button>
+        <button class="nav-item" data-page="account"><span class="nav-icon">👤</span> Tài khoản</button>
+      </nav>
+
+      <div class="sidebar-note">
+        <button class="button button-secondary" id="logoutBtn" style="width:100%;justify-content:center;">
+          ↩ Đăng xuất
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" id="menuToggle" aria-label="Mở menu">☰</button>
+        <div class="breadcrumb"><span>Trang Admin</span><b>/</b><strong id="breadcrumbCurrent">Quản lý file</strong>
+        </div>
+      </header>
+
+      <div class="page-wrap">
+
+        <!-- ================= TAB: QUẢN LÝ FILE ================= -->
+        <section class="page active" id="filesPage">
+          <div class="page-heading">
+            <div>
+              <h1>Quản lý file</h1>
+              <p>Xem, sửa, khôi phục hoặc xóa vĩnh viễn mọi file trong hệ thống</p>
+            </div>
+          </div>
+
+          <!-- Quản lý Folder giờ nằm ở tab riêng, xem section #foldersPage bên dưới -->
+
+          <section class="card">
+            <div class="table-toolbar">
+              <label class="search-box" style="max-width:100%;"><span>⌕</span>
+                <input id="fileSearchInput" type="search" placeholder="Tìm theo ID, tên file, người upload...">
+              </label>
+              <div class="result-count"><strong id="fileResultCount">0</strong> file</div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tên file</th>
+                    <th>Folder</th>
+                    <th>Người upload</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tạo</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="fileTableBody"></tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="fileEmptyState" hidden>
+              <div>▦</div>
+              <h3>Không có file nào</h3>
+            </div>
+          </section>
+        </section>
+
+        <!-- ================= TAB: QUẢN LÝ FOLDER (tách riêng) ================= -->
+        <section class="page" id="foldersPage">
+          <div class="page-heading">
+            <div>
+              <h1>Quản lý Folder</h1>
+              <p>Tạo folder mới sẽ tự động tạo luôn bucket thật trong Storage</p>
+            </div>
+          </div>
+
+          <section class="card">
+            <form id="folderForm" class="form-grid" style="padding:1.25rem;">
+              <div class="form-field">
+                <label for="folderDisplayName">Tên hiển thị</label>
+                <input class="form-control" type="text" id="folderDisplayName" placeholder="VD: Kế Toán" required>
+              </div>
+              <div class="form-field">
+                <label for="folderParentSelect">Folder cha (tùy chọn - để trống nếu đây là folder gốc)</label>
+                <select class="form-control" id="folderParentSelect">
+                  <option value="">-- Không có, đây là folder gốc --</option>
+                </select>
+              </div>
+              <div class="form-field full">
+                <button type="submit" class="button button-primary" id="folderSubmitBtn">+ Thêm folder</button>
+              </div>
+            </form>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tên hiển thị</th>
+                    <th>Tên bucket</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="folderManageBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <!-- ================= TAB: QUẢN LÝ USER ================= -->
+        <section class="page" id="usersPage">
+          <div class="page-heading">
+            <div>
+              <h1>Quản lý user</h1>
+              <p>Duyệt tài khoản mới, cấp quyền Admin, hoặc xóa user</p>
+            </div>
+          </div>
+
+          <section class="card">
+            <div class="table-toolbar">
+              <label class="search-box" style="max-width:100%;"><span>⌕</span>
+                <input id="userSearchInput" type="search" placeholder="Tìm theo tên...">
+              </label>
+              <div class="result-count"><strong id="userResultCount">0</strong> user</div>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tên</th>
+                    <th>Giới tính</th>
+                    <th>Trạng thái</th>
+                    <th>Vai trò</th>
+                    <th>Số file đã up</th>
+                    <th>Đăng nhập gần nhất</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="userEmptyState" hidden>
+              <div>☺</div>
+              <h3>Không có user nào</h3>
+            </div>
+          </section>
+        </section>
+
+        <!-- ================= TAB: UPLOAD (giống hệt bên User) ================= -->
+        <section class="page" id="uploadPage">
+          <div class="page-heading">
+            <div>
+              <h1>Tải file lên hệ thống</h1>
+              <p>File sẽ được lưu vào folder bạn chọn bên dưới</p>
+            </div>
+          </div>
+
+          <section class="card">
+            <form id="uploadForm" class="form-grid single" style="padding:1.5rem;">
+              <div class="form-field">
+                <label for="uploadName">Tên file hiển thị (để trống sẽ giữ nguyên tên file gốc)</label>
+                <input class="form-control" type="text" id="uploadName" placeholder="VD: Báo cáo tháng 8">
+              </div>
+              <div class="form-field">
+                <label for="uploadFolder">Chọn folder</label>
+                <select class="form-control" id="uploadFolder" required>
+                  <option value="">-- Chọn folder --</option>
+                </select>
+              </div>
+              <div class="form-field" id="uploadSubfolderWrap" hidden>
+                <label for="uploadSubfolder">Folder con (tùy chọn - để trống sẽ để ở folder cha)</label>
+                <select class="form-control" id="uploadSubfolder">
+                  <option value="">-- Không, để ở folder cha --</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="uploadFile">Chọn file (PDF, Word, Excel, JPG, PNG - tối đa 50MB)</label>
+                <input class="form-control" type="file" id="uploadFile"
+                  accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" required>
+              </div>
+              <div class="form-field">
+                <label for="uploadBio">Mô tả file</label>
+                <textarea class="form-control" id="uploadBio" placeholder="Mô tả ngắn gọn nội dung file..."></textarea>
+              </div>
+              <button type="submit" class="button button-primary" id="uploadSubmitBtn" style="justify-content:center;">
+                ⬆ Tải lên
+              </button>
+            </form>
+          </section>
+        </section>
+
+        <!-- ================= TAB: LỊCH SỬ ================= -->
+        <section class="page" id="historyPage">
+          <div class="page-heading">
+            <div>
+              <h1>Lịch sử thao tác file</h1>
+              <p>Ai đã thêm / sửa / xóa file nào, lúc nào</p>
+            </div>
+          </div>
+
+          <section class="card">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Thời gian</th>
+                    <th>Đối tượng (file / user)</th>
+                    <th>Người thực hiện</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+              </table>
+            </div>
+            <div class="empty-state" id="historyEmptyState" hidden>
+              <div>⏱</div>
+              <h3>Chưa có lịch sử nào</h3>
+            </div>
+          </section>
+        </section>
+
+        <!-- ================= TAB: THẢO LUẬN ================= -->
+        <section class="page" id="discussionPage">
+          <div class="page-heading">
+            <div>
+              <h1>Bảng tin chung</h1>
+              <p>Admin có thể xóa bất kỳ bình luận nào để kiểm duyệt</p>
+            </div>
+          </div>
+          <div id="commentRoot"></div>
+        </section>
+
+        <!-- ================= TAB: CÀI ĐẶT ================= -->
+        <section class="page" id="settingsPage">
+          <div class="page-heading">
+            <div>
+              <h1>Thông tin liên hệ</h1>
+              <p>Hiển thị ở trang Đăng nhập để user cần hỗ trợ liên hệ được</p>
+            </div>
+          </div>
+
+          <section class="card">
+            <form id="settingsForm" class="form-grid single" style="padding:1.5rem;">
+              <div class="form-field">
+                <label for="settingPhone">Số điện thoại / Zalo</label>
+                <input class="form-control" type="text" id="settingPhone" placeholder="VD: 0901234567">
+              </div>
+              <div class="form-field">
+                <label for="settingEmail">Email liên hệ</label>
+                <input class="form-control" type="email" id="settingEmail" placeholder="VD: admin@congty.com">
+              </div>
+              <div class="form-field">
+                <label for="settingFacebook">Link Facebook</label>
+                <input class="form-control" type="text" id="settingFacebook" placeholder="VD: https://facebook.com/...">
+              </div>
+              <div class="form-field">
+                <button type="submit" class="button button-primary" id="settingsSubmitBtn">✓ Lưu thay đổi</button>
+              </div>
+            </form>
+          </section>
+        </section>
+
+        <!-- ================= TAB: TÀI KHOẢN ================= -->
+        <section class="page" id="accountPage">
+          <div class="page-heading">
+            <div>
+              <h1>Cập nhật tài khoản</h1>
+              <p>Đổi tên hiển thị hoặc mật khẩu — cần nhập đúng mật khẩu hiện tại</p>
+            </div>
+          </div>
+
+          <section class="card">
+            <form id="accountForm" class="form-grid single" style="padding:1.5rem;">
+              <div class="form-field">
+                <label for="accountNewName">Tên hiển thị mới (để trống nếu không đổi)</label>
+                <input class="form-control" type="text" id="accountNewName" placeholder="Tên hiển thị mới">
+              </div>
+              <div class="form-field">
+                <label for="accountNewPassword">Mật khẩu mới (để trống nếu không đổi)</label>
+                <input class="form-control" type="password" id="accountNewPassword" placeholder="Tối thiểu 6 ký tự">
+              </div>
+              <div class="form-field">
+                <label for="accountConfirmPassword">Nhập lại mật khẩu mới</label>
+                <input class="form-control" type="password" id="accountConfirmPassword"
+                  placeholder="Nhập lại mật khẩu mới">
+              </div>
+              <div class="form-field">
+                <label for="accountCurrentPassword">Mật khẩu HIỆN TẠI (bắt buộc để xác thực)</label>
+                <input class="form-control" type="password" id="accountCurrentPassword"
+                  placeholder="Nhập mật khẩu đang dùng" required>
+              </div>
+              <div class="form-field">
+                <button type="submit" class="button button-primary" id="accountSubmitBtn">✓ Cập nhật</button>
+              </div>
+            </form>
+          </section>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal chuyển folder cho file (chọn từ danh sách, không gõ tay) -->
+  <div class="modal" id="moveFolderModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-move-modal></div>
+    <section class="modal-dialog" role="dialog" aria-modal="true">
+      <div class="modal-header">
+        <div>
+          <h2>Chọn folder mới cho file này</h2>
+        </div>
+        <button class="close-button" data-close-move-modal aria-label="Đóng">×</button>
+      </div>
+      <div class="form-grid single" style="padding:0 1.25rem 1.25rem;">
+        <div class="form-field">
+          <label for="moveFolderSelect">Folder đích</label>
+          <select class="form-control" id="moveFolderSelect"></select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="button button-secondary" data-close-move-modal>Hủy</button>
+        <button type="button" class="button button-primary" id="moveFolderConfirmBtn">Xác nhận chuyển</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast"><span>✓</span>
+    <div><strong id="toastTitle">Thành công</strong>
+      <p id="toastMessage"></p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/comment.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+
+</html>

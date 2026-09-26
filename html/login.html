@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập - Web Tài Liệu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Literata:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="auth-page">
+    <section class="auth-card">
+      <div class="auth-brand">
+        <span class="brand-mark">T</span>
+        <span><strong>Web Tài Liệu</strong><small style="display:block;color:var(--text-sub);font-size:0.75rem;">Quản
+            lý tài liệu nội bộ</small></span>
+      </div>
+
+      <!-- Chuyển tab Đăng nhập / Đăng ký -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLoginBtn" data-tab="login">Đăng nhập</button>
+        <button class="auth-tab" id="tabRegisterBtn" data-tab="register">Đăng ký</button>
+      </div>
+
+      <!-- Thông báo lỗi / thành công dùng chung cho cả 2 form -->
+      <div class="auth-message" id="authMessage"></div>
+
+      <!-- FORM ĐĂNG NHẬP -->
+      <form class="auth-form active" id="loginForm">
+        <div class="form-field">
+          <label for="loginEmail">Email hoặc Tên đăng nhập</label>
+          <input class="form-control" type="text" id="loginEmail" name="email"
+            placeholder="ban@email.com hoặc tên đăng nhập" required>
+        </div>
+        <div class="form-field">
+          <label for="loginPassword">Mật khẩu</label>
+          <input class="form-control" type="password" id="loginPassword" name="password" placeholder="••••••••"
+            required>
+        </div>
+        <button type="submit" class="button button-primary" id="loginSubmitBtn" style="justify-content:center;">
+          Đăng nhập
+        </button>
+        <button type="button" id="forgotPasswordLink"
+          style="background:none;border:none;color:var(--accent-2);font-size:0.8rem;margin-top:0.9rem;cursor:pointer;width:100%;text-align:center;">
+          Quên mật khẩu?
+        </button>
+      </form>
+
+      <!-- FORM ĐĂNG KÝ -->
+      <form class="auth-form" id="registerForm">
+        <div class="form-field">
+          <label for="registerName">Tên hiển thị</label>
+          <input class="form-control" type="text" id="registerName" name="user_name" placeholder="Nguyễn Văn A"
+            required>
+        </div>
+        <div class="form-field">
+          <label for="registerEmail">Email</label>
+          <input class="form-control" type="email" id="registerEmail" name="email" placeholder="ban@email.com" required>
+        </div>
+        <div class="form-field">
+          <label for="registerPassword">Mật khẩu</label>
+          <input class="form-control" type="password" id="registerPassword" name="password"
+            placeholder="Tối thiểu 6 ký tự" minlength="6" required>
+        </div>
+        <button type="submit" class="button button-primary" id="registerSubmitBtn" style="justify-content:center;">
+          Tạo tài khoản
+        </button>
+      </form>
+
+      <!-- FORM QUÊN MẬT KHẨU - BƯỚC 1: xác nhận username + email -->
+      <form class="auth-form" id="forgotStep1Form">
+        <div class="form-field">
+          <label for="forgotUserName">Tên đăng nhập</label>
+          <input class="form-control" type="text" id="forgotUserName" placeholder="Tên đăng nhập của bạn" required>
+        </div>
+        <div class="form-field">
+          <label for="forgotEmail">Email đã đăng ký</label>
+          <input class="form-control" type="email" id="forgotEmail" placeholder="ban@email.com" required>
+        </div>
+        <button type="submit" class="button button-primary" id="forgotStep1Btn" style="justify-content:center;">
+          Gửi mã xác nhận
+        </button>
+        <button type="button" id="backToLoginFromForgot1"
+          style="background:none;border:none;color:var(--text-sub);font-size:0.8rem;margin-top:0.6rem;cursor:pointer;width:100%;text-align:center;">
+          ← Quay lại đăng nhập
+        </button>
+      </form>
+
+      <!-- FORM QUÊN MẬT KHẨU - BƯỚC 2: nhập mã OTP + đặt mật khẩu mới -->
+      <form class="auth-form" id="forgotStep2Form">
+        <div class="form-field">
+          <label for="forgotOtp">Mã xác nhận (đã gửi qua email, hiệu lực 5 phút)</label>
+          <input class="form-control" type="text" id="forgotOtp" placeholder="Nhập mã trong email" required>
+        </div>
+        <div class="form-field">
+          <label for="forgotNewPassword">Mật khẩu mới</label>
+          <input class="form-control" type="password" id="forgotNewPassword" placeholder="Tối thiểu 6 ký tự"
+            minlength="6" required>
+        </div>
+        <div class="form-field">
+          <label for="forgotConfirmPassword">Nhập lại mật khẩu mới</label>
+          <input class="form-control" type="password" id="forgotConfirmPassword" placeholder="Nhập lại mật khẩu mới"
+            required>
+        </div>
+        <button type="submit" class="button button-primary" id="forgotStep2Btn" style="justify-content:center;">
+          Đặt lại mật khẩu
+        </button>
+      </form>
+
+      <!-- Thông tin liên hệ Admin - lấy động từ bảng site_setting -->
+      <div class="auth-contact" id="authContact" hidden>
+        <p class="auth-contact-title">Cần hỗ trợ? Liên hệ Admin:</p>
+        <div class="auth-contact-list" id="authContactList"></div>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config.js"></script>
+  <script src="../js/auth.js"></script>
+</body>
+
+</html>
