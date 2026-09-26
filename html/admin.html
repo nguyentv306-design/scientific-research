@@ -137,6 +137,17 @@
 
         <!-- ================= TAB: QUẢN LÝ USER ================= -->
         <section class="page" id="usersPage">
+          <!-- Bảng xếp hạng: ai upload nhiều file nhất -->
+          <section class="card" id="leaderboardCard" style="margin-bottom:1.5rem;">
+            <div class="card-header">
+              <div>
+                <h2>Bảng xếp hạng</h2>
+                <p>Top người đóng góp nhiều tài liệu nhất</p>
+              </div>
+            </div>
+            <div id="leaderboardList" style="padding:0 1.25rem 1.25rem;"></div>
+          </section>
+
           <div class="page-heading">
             <div>
               <h1>Quản lý user</h1>
@@ -296,6 +307,21 @@
               <p>Đổi tên hiển thị hoặc mật khẩu — cần nhập đúng mật khẩu hiện tại</p>
             </div>
           </div>
+
+          <section class="card" style="margin-bottom:1.25rem;">
+            <div class="card-header">
+              <div>
+                <h2>Giao diện</h2>
+                <p>Chọn chế độ hiển thị bạn thích</p>
+              </div>
+            </div>
+            <div style="padding:0 1.25rem 1.25rem;">
+              <label style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;">
+                <input type="checkbox" id="darkModeToggle">
+                <span>Chế độ tối (Dark mode)</span>
+              </label>
+            </div>
+          </section>
 
           <section class="card">
             <form id="accountForm" class="form-grid single" style="padding:1.5rem;">

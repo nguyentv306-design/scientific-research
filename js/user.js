@@ -30,7 +30,7 @@ async function bootstrapUserPage() {
 
   const { data: profile, error } = await supabaseClient
     .from("user")
-    .select("user_name, status, is_admin")
+    .select("user_name, status, is_admin, color")
     .eq("id", session.user.id)
     .single();
 
@@ -50,8 +50,10 @@ async function bootstrapUserPage() {
   elUserNameLabel.textContent = currentUser.name;
   elUserAvatar.textContent = currentUser.name.slice(0, 2).toUpperCase();
 
+  initThemeToggle(profile.color);
   await loadFolders();
   await loadMyFileCount();
+  await loadLeaderboard();
   await CommentModule.init("commentRoot", { userId: currentUser.id, isAdmin: false });
   restorePageFromHash();
 }
@@ -404,6 +406,7 @@ async function deleteFileForever(fileId, storagePath) {
     if (currentFolderId) await loadFilesInFolder(currentFolderId);
     if (searchDataLoaded) await loadSearchData();
     await loadMyFileCount();
+    await loadLeaderboard();
   } catch (error) {
     showToast("Không xóa được", error.message);
   }
@@ -690,6 +693,7 @@ async function handleUpload(event) {
     document.getElementById("uploadSubfolderWrap").hidden = true;
     searchDataLoaded = false; // để lần sau vào tab Tìm kiếm sẽ tải lại danh sách mới
     await loadMyFileCount();
+    await loadLeaderboard();
   } catch (error) {
     showToast("Tải lên thất bại", error.message || "Vui lòng thử lại.");
   } finally {
@@ -916,3 +920,45 @@ function enablePasswordToggles() {
   });
 }
 enablePasswordToggles();
+
+// ---------- DARK / LIGHT MODE (lưu vào cột "color" trong bảng user) ----------
+function applyTheme(isDark) {
+  document.documentElement.dataset.theme = isDark ? "dark" : "light";
+}
+
+function initThemeToggle(isDark) {
+  applyTheme(isDark);
+  const toggle = document.getElementById("darkModeToggle");
+  toggle.checked = !!isDark;
+
+  toggle.addEventListener("change", async () => {
+    const newValue = toggle.checked;
+    applyTheme(newValue);
+    await supabaseClient.from("user").update({ color: newValue }).eq("id", currentUser.id);
+  });
+}
+
+// ---------- BẢNG XẾP HẠNG: ai upload nhiều file nhất ----------
+async function loadLeaderboard() {
+  const { data, error } = await supabaseClient
+    .from("user")
+    .select("user_name, score")
+    .order("score", { ascending: false })
+    .limit(5);
+
+  const list = document.getElementById("leaderboardList");
+  if (error || !data || data.length === 0) {
+    list.innerHTML = `<p style="color:var(--text-sub);font-size:0.85rem;">Chưa có dữ liệu.</p>`;
+    return;
+  }
+
+  const medals = ["🥇", "🥈", "🥉"];
+  list.innerHTML = data
+    .map((u, i) => /* html */ `
+      <div style="display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0;border-bottom:1px solid var(--border-color);">
+        <span style="width:1.5rem;text-align:center;">${medals[i] || i + 1}</span>
+        <span style="flex:1;">${escapeHTML(u.user_name || "Ẩn danh")}</span>
+        <strong>${u.score ?? 0} file</strong>
+      </div>`)
+    .join("");
+}

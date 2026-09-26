@@ -73,6 +73,28 @@ h2,
   display: none !important;
 }
 
+/* ---------- 1b. DARK MODE (bật qua data-theme="dark" trên thẻ html) ---------- */
+:root[data-theme="dark"] {
+  --bg-main: #1b1d1a;
+  --bg-panel: #232520;
+  --bg-panel-2: #2c2e27;
+  --bg-hover: #34362e;
+  --border-color: #3e4038;
+  --text-main: #f2efe6;
+  --text-sub: #b7b6a8;
+  --text-faint: #82806f;
+  --accent-1: #6f93d6;
+  --accent-2: #7fa0dc;
+  --accent-gradient: var(--accent-1);
+  --accent-soft-bg: #29344a;
+  --pen-red: #d97b6c;
+  --tab-gold: #d9a94a;
+  --color-success: #7fbf8f;
+  --color-danger: #d97b6c;
+  --color-warning: #d9a94a;
+  --shadow-card: 0 1px 0 var(--border-color);
+}
+
 /* ---------- 2. RESET CƠ BẢN ---------- */
 * {
   box-sizing: border-box;
